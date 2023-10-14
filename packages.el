@@ -10,7 +10,7 @@
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 (setq package-list '(
-    lsp-mode company evil ivy-rich counsel doom-themes latex-preview-pane general elpy
+    lsp-mode company evil ivy-rich counsel doom-themes latex-preview-pane general elpy dired-sidebar dired-preview
 ))
 
 (dolist (package package-list)
@@ -35,7 +35,7 @@
 (use-package company
   :ensure t
   :config
-  (company-mode 1)
+  (setq company-mode 1)
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0))
 
@@ -79,3 +79,7 @@
 
 (use-package tree-sitter-langs
   :after tree-sitter)
+
+(use-package dired-sidebar)
+(use-package dired-preview
+  :config (dired-preview-global-mode 1))

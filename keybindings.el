@@ -43,6 +43,8 @@
   "h d" 'describe-symbol
   "h k" 'describe-key
   "h m" 'evil-lookup
+  ;; Open
+  "o d" 'dired-sidebar-toggle-sidebar
   ;; Tabs
   "t RET" 'tab-new
   "t t"   'tab-new
