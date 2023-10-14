@@ -1,4 +1,5 @@
 (use-package general
+  :ensure t
   :config
     (general-create-definer my-leader-def
     ;; :prefix my-leader
