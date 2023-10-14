@@ -45,6 +45,7 @@
   "h m" 'evil-lookup
   ;; Open
   "o d" 'dired-sidebar-toggle-sidebar
+  "o t" 'term-toggle
   ;; Tabs
   "t RET" 'tab-new
   "t t"   'tab-new
@@ -70,3 +71,13 @@
   (let ((split-width-threshold 0)
         (split-height-threshold nil))
     (call-interactively 'find-file-other-window)))
+
+(defun term-toggle nil
+  (interactive)
+  (if (get-buffer "*terminal*")
+      (let ( bwindow get-buffer-window)
+	(kill-buffer "*terminal*")
+	(delete-window bwindow))
+    (split-window-below 20)
+    (other-window 1)
+    (term "/usr/bin/bash")))

@@ -12,3 +12,4 @@
 
 ;;(set-face-attribute 'default nil :family "Fira Code" :height 110)
 (set-face-attribute 'default nil :height 110)
+(setq kill-buffer-query-functions nil)
