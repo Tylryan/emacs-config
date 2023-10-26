@@ -36,7 +36,7 @@
   :ensure t
   :config
   (setq company-mode 1)
-  (setq company-dabbrev-downcase 0)
+  ;;(setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0))
 
 (use-package lsp-mode
@@ -67,7 +67,9 @@
 (use-package elpy
   :ensure t
   :hook ((python-mode . lsp-mode)
-	 (python-mode . elpy-mode))
+	 (python-mode . elpy-mode)
+	 (c-mode      . lsp-mode)
+	 (c++-mode      . lsp-mode))
   :config (elpy-enable))
 
 
