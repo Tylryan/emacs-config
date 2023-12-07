@@ -4,13 +4,15 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 
 (package-initialize)
-(package-refresh-contents)
+;(package-refresh-contents)
 
 ;; Good way to install if not already
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 (setq package-list '(
-    lsp-mode company evil ivy-rich counsel doom-themes latex-preview-pane general elpy dired-sidebar dired-preview
+    lsp-mode company evil ivy-rich counsel doom-themes latex-preview-pane
+    general elpy dired-sidebar dired-preview yasnippet
+    yasnippet-classic-snippets fill-column-indicator
 ))
 
 (dolist (package package-list)
@@ -39,10 +41,13 @@
   ;;(setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0))
 
+(setq global-company-mode 1)
 (use-package lsp-mode
   :ensure t
   :hook ((python-mode . lsp-mode)
-	 (c-mode . lsp-mode)))
+	 (c-mode . lsp-mode)
+	 (js-mode . lsp-mode)
+	 (ts-mode .lsp-mode)))
 
 (use-package evil
   :ensure t
@@ -69,7 +74,8 @@
   :hook ((python-mode . lsp-mode)
 	 (python-mode . elpy-mode)
 	 (c-mode      . lsp-mode)
-	 (c++-mode      . lsp-mode))
+	 (c++-mode    . lsp-mode))
+	 ;;(js-mode     . lsp-mode))
   :config (elpy-enable))
 
 
