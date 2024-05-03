@@ -5,21 +5,8 @@
     ;; :prefix my-leader
     :prefix "SPC"))
 
-;;(global-set-key (kbd "C-o") 'previous-buffer)
-;; Mode Keybindings
-(general-define-key
- :states 'normal
- :keymaps 'emacs-lisp-mode-map
- ;; or xref equivalent
- "K" 'elisp-slime-nav-describe-elisp-thing-at-point)
-
-;; Navigate through thngs like M-x with C-j and C-k
-(general-define-key
- :keymaps 'ivy-minibuffer-map
- "C-j" 'ivy-next-line-or-history
- "C-k" 'ivy-previous-line-or-history
-)
-
+;; GLOBAL KEYBINDINGS USING A LEADER KEY
+;;   These keybindings will override any other keybindings
 (my-leader-def
   :states 'normal
   :keymaps 'override
@@ -63,6 +50,33 @@
   "w w"   'evil-window-prev
   "w q"   'evil-delete-buffer
 )
+
+;; MAP/MODE SPECIFIC KEYBINDS THAT DO USE LEADER KEY
+;;    Create maps for specific modes with your leader key defined above
+;;    Pretty sure the keybinds above will override any mode specific
+;;    ones unless you make them override the global keybinds
+(my-leader-def flycheck-mode-map
+ :states 'normal
+ ;:prefix "SPC"
+ :keymaps 'flycheck-mode-map
+ "e n" 'flycheck-next-error
+ "e N" 'flycheck-previous-error
+ )
+
+;; MODE KEYBINDINGS THAT DO NOT USE THE LEADER KEYS
+(general-define-key
+ :states 'normal
+ :keymaps 'emacs-lisp-mode-map
+ ;; or xref equivalent
+ "K" 'elisp-slime-nav-describe-elisp-thing-at-point)
+
+;; Navigate through thngs like M-x with C-j and C-k
+(general-define-key
+ :keymaps 'ivy-minibuffer-map
+ "C-j" 'ivy-next-line-or-history
+ "C-k" 'ivy-previous-line-or-history
+)
+
 
 ;; Straight from Stack Overflow
 (defun find-file-other-window-vertically nil
