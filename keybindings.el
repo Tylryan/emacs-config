@@ -15,7 +15,8 @@
   "."   'find-file
   ">"   'find-file-other-window-vertically
   ;; Bookmarks
-  "RET RET" 'counsel-bookmark
+  "RET ." 'counsel-bookmark
+  "RET >" 'counsel-bookmark-next-window
   "RET r"   'bookmark-rename
   "RET d"   'bookmark-delete
   ;; Buffers
@@ -33,6 +34,13 @@
   ;; Open
   "o d" 'dired-sidebar-toggle-sidebar
   "o t" 'term-toggle
+  ;; Org Roam (and plain org)
+  "r n" 'org-roam-node-open-vertical
+  "r f" 'org-roam-node-open-vertical
+  "r >" 'org-roam-node-open-vertical
+  "r ." 'org-roam-node-find
+  "r h" 'org-insert-heading
+  "r b" 'org-roam-buffer-toggle      ;; Back links
   ;; Tabs
   "t RET" 'tab-new
   "t t"   'tab-new
@@ -63,6 +71,11 @@
  "e N" 'flycheck-previous-error
  )
 
+(my-leader-def org-mode-map
+ :states 'normal
+ "r l" 'org-roam-node-insert
+ "r o" 'org-open-at-point)
+
 ;; MODE KEYBINDINGS THAT DO NOT USE THE LEADER KEYS
 (general-define-key
  :states 'normal
@@ -75,8 +88,11 @@
  :keymaps 'ivy-minibuffer-map
  "C-j" 'ivy-next-line-or-history
  "C-k" 'ivy-previous-line-or-history
+ ;; In org roam, if you have a node called "hello world" and try to create
+ ;; a new one called "hello", it will just select "hello world" instead of
+ ;; creating the new node. This keybind will create the new node
+ "C-<return>" 'ivy-immediate-done
 )
-
 
 ;; Straight from Stack Overflow
 (defun find-file-other-window-vertically nil
@@ -88,10 +104,29 @@
 
 (defun term-toggle nil
   (interactive)
+  ;; If there is a temrinal buffer
   (if (get-buffer "*terminal*")
-      (let ( bwindow get-buffer-window)
-	(kill-buffer "*terminal*")
-	(delete-window bwindow))
+      ;; get that buffer
+      (let ( bwindow (get-buffer-window "*terminal*"))
+        (kill-buffer "*terminal*")
+        (delete-window bwindow))
+    ;; else
     (split-window-below 20)
     (other-window 1)
     (term "/usr/bin/bash")))
+
+(defun org-roam-node-open-vertical ()
+  (interactive)
+  (org-roam-node-find (next-window)))
+
+(defun counsel-bookmark-next-window ()
+  (interactive)
+  ;; Create a new window
+  (split-window-right)
+  ;; Select next window
+  (other-window 1)
+  ;; Create a scratch buffer because setting it to the current buffer
+  ;; looks pretty uggly to me
+  (scratch-buffer)
+  ;; run counsel bookmark
+  (counsel-bookmark))

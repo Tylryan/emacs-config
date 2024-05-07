@@ -1,4 +1,4 @@
-
+ 
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
@@ -47,7 +47,8 @@
   :hook ((python-mode . lsp-mode)
 	 (c-mode . lsp-mode)
 	 (js-mode . lsp-mode)
-	 (ts-mode .lsp-mode)))
+	 (rust-mode . lsp-mode)
+	 (typescript-mode . lsp-mode)))
 
 (use-package evil
   :ensure t
@@ -69,12 +70,14 @@
 (use-package latex-preview-pane
   :ensure t)
 
+; This probably doesn't use any other mode than python
 (use-package elpy
   :ensure t
   :hook ((python-mode . lsp-mode)
 	 (python-mode . elpy-mode)
 	 (c-mode      . lsp-mode)
-	 (c++-mode    . lsp-mode))
+	 (c++-mode    . lsp-mode)
+	 (rust-mode   . lsp-mode))
 	 ;;(js-mode     . lsp-mode))
   :config (elpy-enable))
 
@@ -91,3 +94,29 @@
 (use-package dired-sidebar)
 (use-package dired-preview
   :config (dired-preview-global-mode 1))
+
+(use-package org
+  :config
+        ;; indent after headers
+  (setq org-adapt-indentation t
+        ;; Don't show *bold* or /italic/ etc
+        org-hide-emphasis-markers t))
+
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode))
+  ;:init
+  ;(setq org-bullets-bullet-list '("◉", "●", "○", "●")))
+
+;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/documents/notes/orgroam")
+  (org-roam-db-location "~/documents/notes/orgroam/org-roam.db")
+  :config
+  (org-roam-setup))
+(use-package org-roam-ui 
+	     :ensure t
+	     :after org-roam)
