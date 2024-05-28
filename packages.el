@@ -1,4 +1,3 @@
- 
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
@@ -18,6 +17,11 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+;; Used to be able to copy text to clipboard while using emacs within the
+;; terminal
+(use-package xclip
+  :ensure t)
 
 (use-package doom-themes
   :ensure t
@@ -117,6 +121,19 @@
   (org-roam-db-location "~/documents/notes/orgroam/org-roam.db")
   :config
   (org-roam-setup))
+
 (use-package org-roam-ui 
 	     :ensure t
 	     :after org-roam)
+
+(setq org-roam-capture-templates
+    '(
+        ("a" "thoughts" plain (file "~/documents/notes/orgroam/thoughts/template.org")
+            :target (file+head "thoughts/%<%Y%m%d%H%M%S>-${slug}.org"
+            "#+title: ${title}\n") :unnarrowed t)
+        ("c" "computer-science" plain (file "~/documents/notes/orgroam/computer-science/definition-template.org")
+            :target (file+head "computer-science/%<%Y%m%d%H%M%S>-${slug}.org"
+            "#+title: ${title}\n") :unnarrowed t)
+    )
+)
+
